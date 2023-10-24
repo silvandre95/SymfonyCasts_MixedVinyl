@@ -10,19 +10,20 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class SongController extends AbstractController
 {
-    #[Route('/api/songs/{id<\d+>}', methods: ['GET'])]
-    public function getSong(int $id, LoggerInterface $logger) : Response
+    #[Route('/api/songs/{id<\d+>}', methods: ['GET'], name: 'api_songs_get_one')]
+    public function getSong(int $id, LoggerInterface $logger): Response
     {
-       $song = [
-           'id' => $id,
-           'name' => 'Waterfalls',
-           'url' => 'https://symfonycasts.s3.amazonaws.com/sample.mp3'
-       ];
+        // TODO query the database
+        $song = [
+            'id' => $id,
+            'name' => 'Waterfalls',
+            'url' => 'https://symfonycasts.s3.amazonaws.com/sample.mp3',
+        ];
 
-       $logger->info('Returning API responde for a song {song}', [
-           'song' => $id
-       ]);
+        $logger->info('Returning API response for song {song}', [
+            'song' => $id,
+        ]);
 
-       return new JsonResponse($song);
+        return $this->json($song);
     }
 }
